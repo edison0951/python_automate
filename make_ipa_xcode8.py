@@ -42,8 +42,8 @@ SMTP_SERVER = "smtp.sina.com"
 MAIL_TO_ADDRESS = 'aa@qq.com,bb@qq.com'
 
 # pgyerd的api key
-PGYER_USER_KEY = "c93b1746c5024b55c88c501f6cfd3296"
-PGYER_API_KEY = "1a6609cc7526bb9e602d2d100f3bda5a"
+PGYER_USER_KEY = "xxxxxxxxxxxxxxxxxxx"
+PGYER_API_KEY = "xxxxxxxxxxxxxxxxxxxx"
 
 
 # 清理项目 创建build目录
@@ -64,11 +64,6 @@ def build_inhouse_workspace(project_path):
 
     buildCmd = "xcodebuild -workspace %s -scheme %s -configuration %s clean archive -archivePath '%s' DEVELOPMENT_TEAM='%s' PROVISIONING_PROFILE='%s'" \
                % (PROJECT_WORKSPACE, PROJECT_SCHEME,CONFIGURATION_INHOUSE, build_path, INHOUSE_TEAM_ID, PROVISIONING_PROFILE_INHOUSE)
-
-    #buildCmd = 'xcodebuild -workspace %s -scheme %s -sdk iphoneos -configuration %s build CODE_SIGN_IDENTITY="%s"' \
-    #           ' PROVISIONING_PROFILE="%s" SYMROOT=%s' % (PROJECT_WORKSPACE, PROJECT_SCHEME, CONFIGURATION_INHOUSE,
-    #                                                      CODE_SIGN_IDENTITY_INHOUSE, PROVISIONING_PROFILE_INHOUSE,
-    #                                                      build_path)
     os.system(buildCmd)
 
 #构建AppStore版本
@@ -81,10 +76,6 @@ def build_app_store_workspace(project_path):
                % (PROJECT_WORKSPACE, PROJECT_SCHEME, CONFIGURATION_APP_STORE, build_path, APPSTORE_TEAM_ID,
                   PROVISIONING_PROFILE_APP_STORE)
 
-    #buildCmd = 'xcodebuild -workspace %s -scheme %s -sdk iphoneos -configuration %s build CODE_SIGN_IDENTITY="%s"' \
-    #           ' PROVISIONING_PROFILE="%s" SYMROOT=%s' % (PROJECT_WORKSPACE, PROJECT_SCHEME, CONFIGURATION_APP_STORE,
-    #                                                      CODE_SIGN_IDENTITY_APP_STORE, PROVISIONING_PROFILE_APP_STORE,
-    #                                                      build_path)
     os.system(buildCmd)
 
 
@@ -94,9 +85,6 @@ def build_ipa(project_path, output_path, plist_path):
     ipa_filename = time.strftime('ChunyuYuer_%Y-%m-%d-%H-%M-%S.ipa', time.localtime(time.time()))
     build_path = '%s/build/%s.xcarchive' % (project_path, PROJECT_SCHEME)
     if os.path.exists(build_path):
-    #signApp = "./build/%s-iphoneos/%s.app" % (configuration, PROJECT_SCHEME)
-    #    signCmd = "xcrun -sdk iphoneos -v PackageApplication %s -o %s/%s" % (signApp, output_path, ipa_filename)
-    #${PROJECT_BUILDDIR}/${SCHEME_NAME}.xcarchive
         signCmd = "xcodebuild -exportArchive -archivePath '%s' -exportOptionsPlist '%s' -exportPath '%s/%s'" % (build_path, plist_path, output_path, ipa_filename)
         os.system(signCmd)
         return ipa_filename
