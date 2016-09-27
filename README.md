@@ -1,2 +1,2 @@
 # python_automate
-automate script
+python automate build script for iOS
